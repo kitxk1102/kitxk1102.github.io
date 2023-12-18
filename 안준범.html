@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seat Arrangement</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>Seat Arrangement</h1>
+    <canvas id="canvas" width="800" height="600"></canvas>
+
+    <script>
+
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+
+
+        const white = "#FFFFFF";
+        const black = "#000000";
+        const gray = "#808080";
+
+
+        ctx.font = "30px sans-serif";
+
+        function drawSeats(seatNumbers, rows, columns) {
+            const seatWidth = canvas.width / columns;
+            const seatHeight = canvas.height / rows;
+            const spacing = columns % 2 === 0 ? 100 : 0; // Add spacing when columns are multiples of 2
+
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < columns; j++) {
+                    const seatNumber = seatNumbers[i][j];
+                    const seatX = j * seatWidth + Math.floor(j / 2) * spacing; // Add spacing for every 2 columns
+                    const seatY = i * seatHeight;
+
+                    ctx.fillStyle = black;
+                    ctx.fillText(seatNumber.toString(), seatX + seatWidth / 2, seatY + seatHeight / 2);
+
+                    ctx.strokeStyle = gray;
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(seatX, seatY, seatWidth, seatHeight);
+                }
+            }
+        }
+
+
+        function seatArrangement() {
+            const number = parseInt(prompt("번호를 입력하세요: "));
+            const rows = parseInt(prompt("행의 개수를 입력하세요: "));
+            const columns = parseInt(prompt("열의 개수를 입력하세요: "));
+
+
+            const numbers = Array.from({ length: rows * columns }, (_, i) => i + 1);
+            const shuffledNumbers = numbers.sort(() => Math.random() - 0.5);
+
+
+            const seats = [];
+            for (let i = 0; i < rows; i++) {
+                const row = shuffledNumbers.slice(i * columns, (i + 1) * columns);
+                seats.push(row);
+            }
+
+            drawSeats(seats, rows, columns);
+        }
+
+        seatArrangement();
+    </script>
+</body>
+</html>
+
+

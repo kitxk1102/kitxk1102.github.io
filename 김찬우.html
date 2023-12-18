@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Number Visualization</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #294a24;
+            color: #ffffff;
+
+        }
+            
+        .container {
+        border: 50px solid #ab865c;
+        border-radius: 10px;
+        padding: 80px;
+        }
+
+        h1 {
+         text-align: center;
+        font-size: 50px;
+        margin-top: 90px;
+        margin-bottom: 140px;
+        }
+
+
+        #number-display {
+            font-size: 100px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+    
+    <h1>랜덤 학급 번호 뽑기</h1>
+    <p id="number-display">시작</p>
+    <script>
+        function generateRandomNumber(n, excludedNumbers, previousNumbers) {
+            let availableNumbers = Array.from({ length: n }, (_, i) => i + 1)
+                .filter(num => !excludedNumbers.includes(num) && !previousNumbers.includes(num));
+
+            if (availableNumbers.length === 0) {
+                return null;
+            }
+
+            return availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+        }
+
+        function startVisualization() {
+            let number = parseInt(prompt("학생 수를 입력하세요."));
+            let excludedNumbers = [];
+            let previousNumbers = [];
+
+            function handleExcludedNumberInput() {
+                let excludedNumber = prompt("제외할 번호를 입력하세요. (다 입력하였으면, Q를 누르세요.):");
+                if (excludedNumber === 'q') {
+                    generateRandomNumberVisualization(number, excludedNumbers, previousNumbers);
+                } else {
+                    excludedNumbers.push(parseInt(excludedNumber));
+                    handleExcludedNumberInput();
+                }
+            }
+
+            handleExcludedNumberInput();
+        }
+
+        function generateRandomNumberVisualization(number, excludedNumbers, previousNumbers) {
+            let numberDisplay = document.getElementById('number-display');
+            let randomNumber = generateRandomNumber(number, excludedNumbers, previousNumbers);
+
+            if (randomNumber === null) {
+                numberDisplay.textContent = "모든 수를 뽑았습니다!";
+                return;
+            }
+
+            previousNumbers.push(randomNumber);
+            numberDisplay.textContent = randomNumber;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.addEventListener('click', startVisualization);
+        });
+    </script>
+</body>
+</html>
