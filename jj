@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>당뇨병 예측기</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+    <py-config type="json">
+        {
+            "packages": ["numpy", "pandas", "scikit-learn"]
+        }
+    </py-config>
+</head>
+<body>
+    <h1>당뇨병 예측기</h1>
+    <input type="file" id="csvFile" accept=".csv">
+    <button onclick="loadCSV()">CSV 불러오기</button>
+    <div id="prediction-result"></div>
+
+    <py-script>
+        import pandas as pd
+        from sklearn.linear_model import LogisticRegression
+        import io
+
+        # 모델 초기화 (실제 모델로 교체 필요)
+        model = LogisticRegression()
+
+        # CSV 파일 불러오기 함수
+        def loadCSV():
+            file_input = Element('csvFile').element.files[0]
+            reader = FileReader()
+            
+            def onload(event):
+                data = io.StringIO(event.target.result)
+                df = pd.read_csv(data)
+                # 모델에 데이터 적용 및 예측
+                predictions = model.predict(df)
+                # 결과 출력
+                Element('prediction-result').write(f'예측 결과: {predictions}')
+            
+            reader.readAsText(file_input)
+            reader.onload = onload
+
+    </py-script>
+</body>
+</html>
