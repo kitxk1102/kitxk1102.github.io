@@ -17,6 +17,8 @@ intro:
 
 ## Title
 
-Body
+자기소개
+에리카 인공지능학과 2025014566 강민주
+오픈소스실전인공지능 LAB
 
 ![collegeofcomputing](/assets/images/collegeofcomputing.jpg)
